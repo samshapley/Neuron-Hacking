@@ -4,7 +4,7 @@ from datetime import datetime
 import time
 from finetune_cost_estimator import estimate_finetune_cost
 
-openai.api_key = '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'
+openai.api_key = 'API_KEY_HERE'
 
 class AI:
     def __init__(self, system="", model="gpt-3.5-turbo", openai_client=None):
