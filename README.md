@@ -2,6 +2,8 @@
 
 Finetuning LLMs to act as key-value stores.
 
+https://api.wandb.ai/files/samuel-shapley/images/projects/38392022/408210be.png![image](https://github.com/samshapley/Neuron-Hacking/assets/93387313/d7be1983-4049-4200-8490-4d0878c7bc84)
+
 <hr>
 
 This repository contains base code that can be used to understand the research on fine-tuning Language Learning Models (LLMs) to act as key-value stores. It is not a complete project, but it provides a foundation for further exploration and experimentation.
