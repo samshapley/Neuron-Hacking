@@ -2,7 +2,8 @@
 
 Finetuning LLMs to act as key-value stores.
 
-[image](https://github.com/samshapley/Neuron-Hacking/assets/93387313/d7be1983-4049-4200-8490-4d0878c7bc84)
+![408210be](https://github.com/samshapley/Neuron-Hacking/assets/93387313/7ab377a1-2f43-486c-9d75-ea7d48e21b45)
+
 
 <hr>
 
