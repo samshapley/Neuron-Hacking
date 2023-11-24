@@ -3,8 +3,10 @@ import json
 from datetime import datetime
 import time
 from finetune_cost_estimator import estimate_finetune_cost
+from numpy import dot
+from numpy.linalg import norm
 
-openai.api_key = 'API_KEY_HERE'
+openai.api_key = 'your api key'
 
 class AI:
     def __init__(self, system="", model="gpt-3.5-turbo", openai_client=None):
@@ -226,3 +228,59 @@ class FineTuner:
         all_models = self.openai.models.list()
         finetuned_models = [model for model in all_models.data if 'openai' not in model.owned_by.lower() and 'system' not in model.owned_by.lower()]
         return finetuned_models
+    
+class Embedding:
+    def __init__(self, openai_client=None, embedding_model="text-embedding-ada-002",encoding_format=None):
+        self.openai = openai_client or openai
+        self.embedding_model = embedding_model
+        self.encoding_format = encoding_format
+
+    def create_embeddings(self, texts):
+        # Ensure texts is a list
+        if not isinstance(texts, list):
+            raise ValueError("Input should be a list of strings.")
+
+        # Create embeddings
+        embeddings = self.openai.embeddings.create(
+            model=self.embedding_model,
+            input=texts,
+            encoding_format=self.encoding_format
+        )
+        # Combine original texts and their embeddings into a list of dictionaries
+        embeddings_objects = [{"text": text, "embedding": embedding.embedding} for text, embedding in zip(texts, embeddings.data)]
+
+        return embeddings_objects
+    
+    @staticmethod
+    def cosine_similarity(vector1, vector2):
+        """
+        Calculate the cosine similarity between two vectors
+
+        Args:
+            embedding1 (dict): The first vector
+            embedding2 (dict): The second vector
+
+        Returns:
+            float: The cosine similarity between the two vector embeddings.
+        """
+        return dot(vector1, vector2) / (norm(vector1) * norm(vector2))
+
+
+    def string_similarity(self, string1, string2):
+        """
+        Calculate the cosine similarity between the embeddings of two strings.
+
+        Args:
+            string1 (str): The first string.
+            string2 (str): The second string.
+
+        Returns:
+            float: The cosine similarity between the embeddings of the two strings.
+        """
+
+        # Create embeddings for the strings
+        embedding1 = self.create_embeddings([string1])[0]["embedding"]
+        embedding2 = self.create_embeddings([string2])[0]["embedding"]
+
+        # Calculate and return the cosine similarity
+        return self.cosine_similarity(embedding1, embedding2)
